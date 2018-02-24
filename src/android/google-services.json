@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "522556781369",
+    "firebase_url": "https://sabro-7968.firebaseio.com",
+    "project_id": "sabro-7968",
+    "storage_bucket": "sabro-7968.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522556781369:android:619524061e1acfb1",
+        "android_client_info": {
+          "package_name": "com.allipltd.dev.sabro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522556781369-er9hk1n82p1q3jcorsu2vnq5dk5q7lfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlAmbbcD75loLVqnIvPHuTfLsBeKhdCrw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

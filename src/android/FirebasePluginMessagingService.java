@@ -110,8 +110,10 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             if (resID != 0) {
                 notificationBuilder.setSmallIcon(resID);
                 notificationBuilder.addAction(resID, "Allow",pendingIntent);
+                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntent);
             } else {
                 notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+                notificationBuilder.addAction(resID, "Allow",pendingIntent);
                 notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntent);
             }
 

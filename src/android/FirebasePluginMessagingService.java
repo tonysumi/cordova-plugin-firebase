@@ -94,6 +94,16 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             intent.putExtras(bundle);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id.hashCode(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
+                
+            Intent intentAllow = new Intent(this, OnNotificationOpenReceiver.class);
+            intentAllow.putExtras(bundle);
+            intentAllow.putExtras("action","ALLOW");
+            PendingIntent pendingIntentAllow = PendingIntent.getBroadcast(this, id.hashCode(), intentAllow,PendingIntent.FLAG_UPDATE_CURRENT);
+                
+            Intent intentDeny = new Intent(this, OnNotificationOpenReceiver.class);
+            intentDeny.putExtras(bundle);
+            intentDeny.putExtras("action","DENY");
+            PendingIntent pendingIntentDeny = PendingIntent.getBroadcast(this, id.hashCode(), intentDeny,PendingIntent.FLAG_UPDATE_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -109,12 +119,12 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "resID: " + resID);
             if (resID != 0) {
                 notificationBuilder.setSmallIcon(resID);
-                notificationBuilder.addAction(resID, "Allow",pendingIntent);
-                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntent);
+                notificationBuilder.addAction(resID, "Allow",pendingIntentAllow);
+                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntentDeny);
             } else {
                 notificationBuilder.setSmallIcon(getApplicationInfo().icon);
-                notificationBuilder.addAction(resID, "Allow",pendingIntent);
-                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntent);
+                notificationBuilder.addAction(resID, "Allow",pendingIntentAllow);
+                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntentDeny);
             }
 
             if (sound != null) {

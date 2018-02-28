@@ -97,12 +97,12 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 
             Intent intentAllow = new Intent(this, OnNotificationOpenReceiver.class);
             intentAllow.putExtras(bundle);
-            intentAllow.putExtras("action","ALLOW");
+            intentAllow.putExtra("action","ALLOW");
             PendingIntent pendingIntentAllow = PendingIntent.getBroadcast(this, id.hashCode(), intentAllow,PendingIntent.FLAG_UPDATE_CURRENT);
                 
             Intent intentDeny = new Intent(this, OnNotificationOpenReceiver.class);
             intentDeny.putExtras(bundle);
-            intentDeny.putExtras("action","DENY");
+            intentDeny.putExtra("action","DENY");
             PendingIntent pendingIntentDeny = PendingIntent.getBroadcast(this, id.hashCode(), intentDeny,PendingIntent.FLAG_UPDATE_CURRENT);
 
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

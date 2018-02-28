@@ -105,8 +105,10 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             int resID = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
             if (resID != 0) {
                 notificationBuilder.setSmallIcon(resID);
+                notificationBuilder.addAction(resID, "Allow",pendingIntent);
             } else {
                 notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntent);
             }
 
             if (sound != null) {

@@ -76,6 +76,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         // TODO: Add option to developer to configure if show notification when app on foreground
         if (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title) || (!remoteMessage.getData().isEmpty())) {
             boolean showNotification = (FirebasePlugin.inBackground() || !FirebasePlugin.hasNotificationsCallback()) && (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title));
+            Log.d(TAG, "showNotification: " + showNotification);
             sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
         }
 
@@ -86,7 +87,9 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         for (String key : data.keySet()) {
             bundle.putString(key, data.get(key));
         }
-        if (showNotification) {
+     //   if (showNotification) {
+            if (true) {
+            Log.d(TAG, "true: " );
             Intent intent = new Intent(this, OnNotificationOpenReceiver.class);
             intent.putExtras(bundle);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id.hashCode(), intent,
@@ -103,6 +106,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent);
 
             int resID = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
+            Log.d(TAG, "resID: " + resID);
             if (resID != 0) {
                 notificationBuilder.setSmallIcon(resID);
                 notificationBuilder.addAction(resID, "Allow",pendingIntent);
@@ -139,6 +143,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
             notificationManager.notify(id.hashCode(), notification);
         } else {
+            Log.d(TAG, "else: " );
             bundle.putBoolean("tap", false);
             bundle.putString("title", title);
             bundle.putString("body", messageBody);

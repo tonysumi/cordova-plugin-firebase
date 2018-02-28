@@ -17,6 +17,7 @@ public class OnNotificationOpenReceiver extends BroadcastReceiver {
         Log.d("Notification", "Notification onReceive context.getPackageName(): " + context.getPackageName());
         Log.d("Notification", "Notification onReceive launchIntent: " + launchIntent);
         String action=intent.getStringExtra("action");
+        Log.d("onReceive","action string: " + action);
         if(action.equals("ALLOW")){
             Log.d("Notification", "Notification onReceive ALLOW: ");
         }

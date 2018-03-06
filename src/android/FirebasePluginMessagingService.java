@@ -44,7 +44,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         String title;
         String text;
-        String type;
+        String type = null;
         String id;
         String sound = null;
         if (remoteMessage.getNotification() != null) {

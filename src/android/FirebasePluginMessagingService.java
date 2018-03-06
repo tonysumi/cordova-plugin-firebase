@@ -44,6 +44,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         String title;
         String text;
+        String type;
         String id;
         String sound = null;
         if (remoteMessage.getNotification() != null) {
@@ -55,6 +56,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             text = remoteMessage.getData().get("text");
             id = remoteMessage.getData().get("id");
             sound = remoteMessage.getData().get("sound");
+            type = remoteMessage.getData().get("type");
 
             if(TextUtils.isEmpty(text)){
                 text = remoteMessage.getData().get("body");
@@ -72,12 +74,16 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Notification Message Title: " + title);
         Log.d(TAG, "Notification Message Body/Text: " + text);
         Log.d(TAG, "Notification Message Sound: " + sound);
+        Log.d(TAG, "Notification type: " + type);
 
+        
         // TODO: Add option to developer to configure if show notification when app on foreground
         if (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title) || (!remoteMessage.getData().isEmpty())) {
             boolean showNotification = (FirebasePlugin.inBackground() || !FirebasePlugin.hasNotificationsCallback()) && (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title));
             Log.d(TAG, "showNotification: " + showNotification);
-            sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
+            if(!TextUtils.isEmpty(type){
+                sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
+            }
         }
 
     }
@@ -94,7 +100,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             intent.putExtras(bundle);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id.hashCode(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-                
+/*                
             Intent intentAllow = new Intent(this, OnNotificationOpenReceiver.class);
             intentAllow.putExtras(bundle);
             intentAllow.putExtra("action","ALLOW");
@@ -104,7 +110,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             intentDeny.putExtras(bundle);
             intentDeny.putExtra("action","DENY");
             PendingIntent pendingIntentDeny = PendingIntent.getBroadcast(this, id.hashCode(), intentDeny,PendingIntent.FLAG_UPDATE_CURRENT);
-
+*/
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle(title)
@@ -119,12 +125,12 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "resID: " + resID);
             if (resID != 0) {
                 notificationBuilder.setSmallIcon(resID);
-                notificationBuilder.addAction(resID, "Allow",pendingIntentAllow);
-                notificationBuilder.addAction(resID, "Deny",pendingIntentDeny);
+       //         notificationBuilder.addAction(resID, "Allow",pendingIntentAllow);
+       //         notificationBuilder.addAction(resID, "Deny",pendingIntentDeny);
             } else {
                 notificationBuilder.setSmallIcon(getApplicationInfo().icon);
-                notificationBuilder.addAction(getApplicationInfo().icon, "Allow",pendingIntentAllow);
-                notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntentDeny);
+       //         notificationBuilder.addAction(getApplicationInfo().icon, "Allow",pendingIntentAllow);
+      //          notificationBuilder.addAction(getApplicationInfo().icon, "Deny",pendingIntentDeny);
             }
 
             if (sound != null) {

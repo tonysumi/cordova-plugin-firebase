@@ -81,7 +81,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
         if (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title) || (!remoteMessage.getData().isEmpty())) {
             boolean showNotification = (FirebasePlugin.inBackground() || !FirebasePlugin.hasNotificationsCallback()) && (!TextUtils.isEmpty(text) || !TextUtils.isEmpty(title));
             Log.d(TAG, "showNotification: " + showNotification);
-            if(!TextUtils.isEmpty(type){
+            if(!TextUtils.isEmpty(type)){
                 sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
             }
         }

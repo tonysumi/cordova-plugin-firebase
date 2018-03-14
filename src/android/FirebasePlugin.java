@@ -80,7 +80,7 @@ public class FirebasePlugin extends CordovaPlugin {
 
                 @Override
                 public void onError(RegistrationException error, String accessToken, String fcmToken) {
-                    String message = String.format("Registration Error: %d, %s", error.getErrorCode(), error.getMessage());
+                    String message = String.format("Registration Error: %d, %s, %s", error.getErrorCode(), error.getMessage(), error.getExplanation());
                     Log.e(TAG, message);
                 }
             };

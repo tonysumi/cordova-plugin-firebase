@@ -53,7 +53,7 @@ import com.twilio.voice.CallState;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
 import com.twilio.voice.RegistrationException;
-import com.twilio.voice.RegistrationListener
+import com.twilio.voice.RegistrationListener;
 import com.twilio.voice.Voice;
 
 public class FirebasePlugin extends CordovaPlugin {

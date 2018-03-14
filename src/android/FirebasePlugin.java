@@ -67,6 +67,25 @@ public class FirebasePlugin extends CordovaPlugin {
     private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
 
+    RegistrationListener registrationListener = registrationListener();
+
+
+    // Twilio Voice Registration Listener
+    private RegistrationListener registrationListener() {
+            return new RegistrationListener() {
+                @Override
+                public void onRegistered(String accessToken, String fcmToken) {
+                    Log.d(TAG, "Successfully registered FCM " + fcmToken);
+                }
+
+                @Override
+                public void onError(RegistrationException error, String accessToken, String fcmToken) {
+                    String message = String.format("Registration Error: %d, %s", error.getErrorCode(), error.getMessage());
+                    Log.e(TAG, message);
+                }
+            };
+        }
+
     @Override
     protected void pluginInitialize() {
         final Context context = this.cordova.getActivity().getApplicationContext();
@@ -176,7 +195,10 @@ public class FirebasePlugin extends CordovaPlugin {
         } else if (action.equals("stopTrace")) {
             this.stopTrace(callbackContext, args.getString(0));
             return true;
-        }
+        }else if (action.equals("registerForCallInvites")) {
+            this.registerForCallInvites(callbackContext, args.getString(0));
+            return true;
+        } 
         return false;
     }
 
@@ -195,6 +217,18 @@ public class FirebasePlugin extends CordovaPlugin {
         FirebasePlugin.notificationCallbackContext = null;
         FirebasePlugin.tokenRefreshCallbackContext = null;
     }
+
+private void registerForCallInvites(final CallbackContext callbackContext,String accessToken) {
+        Log.d(TAG, "registerForCallInvites() called");
+       
+        final String fcmToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "fcmToken: "+fcmToken);
+        if (fcmToken != null) {
+            Log.i(TAG, "Registering with FCM");
+            Voice.register(cordova.getActivity().getApplicationContext(), accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
+        }
+    }
+
 
     private void onNotificationOpen(final CallbackContext callbackContext) {
         FirebasePlugin.notificationCallbackContext = callbackContext;

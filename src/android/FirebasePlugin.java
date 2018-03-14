@@ -46,6 +46,16 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+
+//Twilio
+import com.twilio.voice.Call;
+import com.twilio.voice.CallState;
+import com.twilio.voice.CallException;
+import com.twilio.voice.CallInvite;
+import com.twilio.voice.RegistrationException;
+import com.twilio.voice.RegistrationListener
+import com.twilio.voice.Voice;
+
 public class FirebasePlugin extends CordovaPlugin {
 
     private FirebaseAnalytics mFirebaseAnalytics;

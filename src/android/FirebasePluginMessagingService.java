@@ -92,7 +92,12 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 //Incoming Call
         if (remoteMessage.getData().size() > 0) {
             Map<String, String> data = remoteMessage.getData();
-            Log.d("data", data);
+
+            for (Map.Entry<String,String> entry : data.entrySet()) {
+            Log.d("data", "Key: " + entry.getKey());
+            Log.d("data", "Value: " + entry.getValue());
+            }
+       //     Log.d("data", data);
             final int notificationId = (int) System.currentTimeMillis();
             Voice.handleMessage(this, data, new MessageListener() {
                 @Override

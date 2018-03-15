@@ -152,10 +152,9 @@ private void notify(CallInvite callInvite, int notificationId) {
             extras.putInt(NOTIFICATION_ID_KEY, notificationId);
             extras.putString(CALL_SID_KEY, callSid);
 
-            int iconIdentifier = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
+            
             NotificationCompat.Builder notificationBuilder =
                      new NotificationCompat.Builder(this)
-                             .setSmallIcon(iconIdentifier)
                             .setContentTitle("SaBRO")
                              .setContentText(callInvite.getFrom() + " is calling.")
                              .setAutoCancel(true)
@@ -163,7 +162,13 @@ private void notify(CallInvite callInvite, int notificationId) {
                              .setContentIntent(pendingIntent);
                             /*.setGroup("test_app_notification")
                              .setColor(Color.rgb(214, 10, 37));*/
- 
+            int iconIdentifier = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
+            Log.d(TAG, "iconIdentifier: " + iconIdentifier);
+            if (iconIdentifier != 0) {
+                notificationBuilder.setSmallIcon(iconIdentifier);
+            } else {
+                notificationBuilder.setSmallIcon(getApplicationInfo().icon);
+            }
              notificationManager.notify(notificationId, notificationBuilder.build());
           
         } else {

@@ -10,9 +10,10 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.app.Notification;
+import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.content.ContentResolver;
-
+import android.support.v4.content.LocalBroadcastManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.twilio.voice.CallInvite;
@@ -88,6 +89,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
             }
         }
+//-------------------------------------------Custom----START---------------------------------------------------------
 
 //Start Incoming Call
         if (remoteMessage.getData().size() > 0) {
@@ -105,9 +107,9 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                     public void onCallInvite(CallInvite callInvite) {
                         String callSid = callInvite.getCallSid();
                         Log.d("Incoming onCallInvite", callSid + " : " + callInvite);
-                        sendNotification("5", "Incoming call...", remoteMessage.getData().get("twi_from"), remoteMessage.getData(), false, "TYPE_RINGTONE");
-                     //   VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
-                       // VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
+                       
+                          FirebasePluginMessagingService.this.notify(callInvite, notificationId);
+                          FirebasePluginMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
                     }
 
                     @Override
@@ -129,6 +131,86 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
     }
 
 
+private void notify(CallInvite callInvite, int notificationId) {
+        String callSid = callInvite.getCallSid();
+
+        if (callInvite.getState() == CallInvite.State.PENDING) {
+            Intent intent = new Intent(this, FirebasePlugin.class);
+            intent.setAction(FirebasePlugin.ACTION_INCOMING_CALL);
+            intent.putExtra(FirebasePlugin.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+            intent.putExtra(FirebasePlugin.INCOMING_CALL_INVITE, callInvite);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pendingIntent =
+                    PendingIntent.getActivity(this, notificationId, intent, PendingIntent.FLAG_ONE_SHOT);
+            /*
+             * Pass the notification id and call sid to use as an identifier to cancel the
+             * notification later
+             */
+            Bundle extras = new Bundle();
+            extras.putInt(NOTIFICATION_ID_KEY, notificationId);
+            extras.putString(CALL_SID_KEY, callSid);
+
+            int iconIdentifier = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
+            NotificationCompat.Builder notificationBuilder =
+                     new NotificationCompat.Builder(this)
+                             .setSmallIcon(iconIdentifier)
+                            .setContentTitle("SaBRO")
+                             .setContentText(callInvite.getFrom() + " is calling.")
+                             .setAutoCancel(true)
+                             .setExtras(extras)
+                             .setContentIntent(pendingIntent);
+                            /*.setGroup("test_app_notification")
+                             .setColor(Color.rgb(214, 10, 37));*/
+ 
+             notificationManager.notify(notificationId, notificationBuilder.build());
+          
+        } else {
+           // SoundPoolManager.getInstance(this).stopRinging();
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                /*
+                 * If the incoming call was cancelled then remove the notification by matching
+                 * it with the call sid from the list of notifications in the notification drawer.
+                 */
+                StatusBarNotification[] activeNotifications = notificationManager.getActiveNotifications();
+                for (StatusBarNotification statusBarNotification : activeNotifications) {
+                    Notification notification = statusBarNotification.getNotification();
+                    Bundle extras = notification.extras;
+                    String notificationCallSid = extras.getString(CALL_SID_KEY);
+
+                    if (callSid.equals(notificationCallSid)) {
+                        notificationManager.cancel(extras.getInt(NOTIFICATION_ID_KEY));
+                    } else {
+                        sendCallInviteToActivity(callInvite, notificationId);
+                    }
+                }
+            } else {
+                /*
+                 * Prior to Android M the notification manager did not provide a list of
+                 * active notifications so we lazily clear all the notifications when
+                 * receiving a cancelled call.
+                 *
+                 * In order to properly cancel a notification using
+                 * NotificationManager.cancel(notificationId) we should store the call sid &
+                 * notification id of any incoming calls using shared preferences or some other form
+                 * of persistent storage.
+                 */
+                notificationManager.cancelAll();
+            }
+        }
+    }
+
+    /*
+     * Send the CallInvite to the FirebasePlugin
+     */
+    private void sendCallInviteToActivity(CallInvite callInvite, int notificationId) {
+        Intent intent = new Intent(FirebasePlugin.ACTION_INCOMING_CALL);
+        intent.putExtra(FirebasePlugin.INCOMING_CALL_NOTIFICATION_ID, notificationId);
+        intent.putExtra(FirebasePlugin.INCOMING_CALL_INVITE, callInvite);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
+//-------------------------------------------Custom----End---------------------------------------------------------
 
     private void sendNotification(String id, String title, String messageBody, Map<String, String> data, boolean showNotification, String sound) {
         Bundle bundle = new Bundle();

@@ -67,6 +67,26 @@ public class FirebasePlugin extends CordovaPlugin {
     private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
 
+ // Constants for Intents and Broadcast Receivers
+    public static final String INCOMING_CALL_INVITE = "INCOMING_CALL_INVITE";
+    public static final String INCOMING_CALL_NOTIFICATION_ID = "INCOMING_CALL_NOTIFICATION_ID";
+    public static final String ACTION_INCOMING_CALL = "ACTION_INCOMING_CALL";
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ACTION_INCOMING_CALL)) {
+                /*
+                 * Handle the incoming call invite
+                 */
+                    Log.d(TAG, "mBroadcastReceiver action" + action);
+               // handleIncomingCallIntent(intent);
+            }
+        }
+    };
+    
+    private CallInvite mCallInvite;
     RegistrationListener registrationListener = registrationListener();
 
 

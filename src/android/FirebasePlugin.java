@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NotificationManagerCompat;
+import android.content.BroadcastReceiver;
 import android.util.Base64;
 import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -85,7 +86,7 @@ public class FirebasePlugin extends CordovaPlugin {
             }
         }
     };
-    
+
     private CallInvite mCallInvite;
     RegistrationListener registrationListener = registrationListener();
 

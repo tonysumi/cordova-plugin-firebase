@@ -15,7 +15,10 @@ import android.content.ContentResolver;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
+import com.twilio.voice.CallInvite;
+import com.twilio.voice.MessageException;
+import com.twilio.voice.MessageListener;
+import com.twilio.voice.Voice;
 import java.util.Map;
 import java.util.Random;
 
@@ -85,6 +88,28 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
             }
         }
+
+//Incoming Call
+        if (remoteMessage.getData().size() > 0) {
+            Map<String, String> data = remoteMessage.getData();
+            Log.d("data", data);
+            final int notificationId = (int) System.currentTimeMillis();
+            Voice.handleMessage(this, data, new MessageListener() {
+                @Override
+                public void onCallInvite(CallInvite callInvite) {
+                    String callSid = callInvite.getCallSid();
+                    Log.d("Incoming onCallInvite", callSid + " : " + callInvite);
+                 //   VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
+                   // VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
+                }
+
+                @Override
+                public void onError(MessageException messageException) {
+                    Log.d("Incoming Error", messageException.getLocalizedMessage());
+                }
+            });
+        }
+
 
     }
 

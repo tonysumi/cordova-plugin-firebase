@@ -76,10 +76,12 @@ public class FirebasePlugin extends CordovaPlugin {
                 @Override
                 public void onRegistered(String accessToken, String fcmToken) {
                     Log.d(TAG, "Successfully registered FCM " + fcmToken);
+                    Log.d(TAG, "onRegistered accessToken: " + accessToken);
                 }
 
                 @Override
                 public void onError(RegistrationException error, String accessToken, String fcmToken) {
+                    Log.e("onError accessToken: ", accessToken);
                     String message = String.format("Registration Error: %d, %s, %s", error.getErrorCode(), error.getMessage(), error.getExplanation());
                     Log.e(TAG, message);
                 }
@@ -225,6 +227,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
         Log.d(TAG, "fcmToken: "+fcmToken);
         if (fcmToken != null) {
             Log.i(TAG, "Registering with FCM");
+            Log.i(TAG, "accessToken :",accessToken);
             Voice.register(cordova.getActivity().getApplicationContext(), accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
         }
     }

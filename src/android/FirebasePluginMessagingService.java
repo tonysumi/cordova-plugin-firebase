@@ -89,34 +89,46 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             }
         }
 
-//Incoming Call
+//Start Incoming Call
         if (remoteMessage.getData().size() > 0) {
-            Map<String, String> data = remoteMessage.getData();
+            String twi_message_type = remoteMessage.getData().get("twi_message_type");
+            if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.call") {
+                
+                Map<String, String> data = remoteMessage.getData();
+                for (Map.Entry<String,String> entry : data.entrySet()) {
+                Log.d("data", "Key: " + entry.getKey());
+                Log.d("data", "Value: " + entry.getValue());
+                }
+                final int notificationId = (int) System.currentTimeMillis();
+                Voice.handleMessage(this, data, new MessageListener() {
+                    @Override
+                    public void onCallInvite(CallInvite callInvite) {
+                        String callSid = callInvite.getCallSid();
+                        Log.d("Incoming onCallInvite", callSid + " : " + callInvite);
+                        sendNotification(notificationId, "Incoming call...", remoteMessage.getData().get("twi_from"), remoteMessage.getData(), false, "TYPE_RINGTONE");
+                     //   VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
+                       // VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
+                    }
 
-            for (Map.Entry<String,String> entry : data.entrySet()) {
-            Log.d("data", "Key: " + entry.getKey());
-            Log.d("data", "Value: " + entry.getValue());
+                    @Override
+                    public void onError(MessageException messageException) {
+                        Log.d("Incoming Error", messageException.getLocalizedMessage());
+                    }
+                });
+
             }
-       //     Log.d("data", data);
-            final int notificationId = (int) System.currentTimeMillis();
-            Voice.handleMessage(this, data, new MessageListener() {
-                @Override
-                public void onCallInvite(CallInvite callInvite) {
-                    String callSid = callInvite.getCallSid();
-                    Log.d("Incoming onCallInvite", callSid + " : " + callInvite);
-                 //   VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
-                   // VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
-                }
+            else if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.cancel") {
+                Log.d("Incoming Cancel", "Incoming call canceled");
+            }
 
-                @Override
-                public void onError(MessageException messageException) {
-                    Log.d("Incoming Error", messageException.getLocalizedMessage());
-                }
-            });
         }
 
 
+
+//End Incoming Call
     }
+
+
 
     private void sendNotification(String id, String title, String messageBody, Map<String, String> data, boolean showNotification, String sound) {
         Bundle bundle = new Bundle();
@@ -141,7 +153,11 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
             intentDeny.putExtra("action","DENY");
             PendingIntent pendingIntentDeny = PendingIntent.getBroadcast(this, id.hashCode(), intentDeny,PendingIntent.FLAG_UPDATE_CURRENT);
 */
-            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            if(TextUtils.equals(sound,"TYPE_RINGTONE")){
+                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            }else{
+                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle(title)
                 .setContentText(messageBody)

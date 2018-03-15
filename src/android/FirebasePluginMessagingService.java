@@ -26,7 +26,8 @@ import java.util.Random;
 public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebasePlugin";
-
+  private static final String NOTIFICATION_ID_KEY = "NOTIFICATION_ID";
+    private static final String CALL_SID_KEY = "CALL_SID";
     /**
      * Called when message is received.
      *

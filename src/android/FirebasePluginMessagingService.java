@@ -92,7 +92,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 //Start Incoming Call
         if (remoteMessage.getData().size() > 0) {
             String twi_message_type = remoteMessage.getData().get("twi_message_type");
-            if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.call") {
+            if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.call")) {
                 
                 Map<String, String> data = remoteMessage.getData();
                 for (Map.Entry<String,String> entry : data.entrySet()) {

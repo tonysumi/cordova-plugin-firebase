@@ -117,7 +117,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 });
 
             }
-            else if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.cancel") {
+            else if (!TextUtils.isEmpty(twi_message_type) || TextUtils.equals(twi_message_type,"twilio.voice.cancel")) {
                 Log.d("Incoming Cancel", "Incoming call canceled");
             }
 

@@ -134,6 +134,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
 private void notify(CallInvite callInvite, int notificationId) {
         String callSid = callInvite.getCallSid();
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (callInvite.getState() == CallInvite.State.PENDING) {
             Intent intent = new Intent(this, FirebasePlugin.class);

@@ -105,7 +105,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                     public void onCallInvite(CallInvite callInvite) {
                         String callSid = callInvite.getCallSid();
                         Log.d("Incoming onCallInvite", callSid + " : " + callInvite);
-                        sendNotification(notificationId, "Incoming call...", remoteMessage.getData().get("twi_from"), remoteMessage.getData(), false, "TYPE_RINGTONE");
+                        sendNotification(id, "Incoming call...", remoteMessage.getData().get("twi_from"), remoteMessage.getData(), false, "TYPE_RINGTONE");
                      //   VoiceFirebaseMessagingService.this.notify(callInvite, notificationId);
                        // VoiceFirebaseMessagingService.this.sendCallInviteToActivity(callInvite, notificationId);
                     }

@@ -227,7 +227,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
         Log.d(TAG, "fcmToken: "+fcmToken);
         if (fcmToken != null) {
             Log.i(TAG, "Registering with FCM");
-            Log.i(TAG, "accessToken :",accessToken);
+            Log.d(TAG, "accessToken :"+accessToken);
             Voice.register(cordova.getActivity().getApplicationContext(), accessToken, Voice.RegistrationChannel.FCM, fcmToken, registrationListener);
         }
     }

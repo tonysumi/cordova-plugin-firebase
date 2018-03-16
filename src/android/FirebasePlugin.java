@@ -28,6 +28,8 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.content.IntentFilter;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +135,12 @@ public class FirebasePlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(ACTION_INCOMING_CALL);
+            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(cordova.getActivity());
+            lbm.registerReceiver(mBroadcastReceiver, intentFilter);
+
         if (action.equals("getInstanceId")) {
             this.getInstanceId(callbackContext);
             return true;
@@ -239,6 +247,13 @@ public class FirebasePlugin extends CordovaPlugin {
     public void onReset() {
         FirebasePlugin.notificationCallbackContext = null;
         FirebasePlugin.tokenRefreshCallbackContext = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(cordova.getActivity());
+        lbm.unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
     }
 
 private void registerForCallInvites(final CallbackContext callbackContext,String accessToken) {

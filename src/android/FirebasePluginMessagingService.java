@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -152,6 +153,7 @@ private void notify(CallInvite callInvite, int notificationId) {
             extras.putInt(NOTIFICATION_ID_KEY, notificationId);
             extras.putString(CALL_SID_KEY, callSid);
 
+            Uri SoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             
             NotificationCompat.Builder notificationBuilder =
                      new NotificationCompat.Builder(this)
@@ -159,9 +161,10 @@ private void notify(CallInvite callInvite, int notificationId) {
                              .setContentText(callInvite.getFrom() + " is calling.")
                              .setAutoCancel(true)
                              .setExtras(extras)
-                             .setContentIntent(pendingIntent);
-                            /*.setGroup("test_app_notification")
-                             .setColor(Color.rgb(214, 10, 37));*/
+                             .setSound(SoundUri)
+                             .setContentIntent(pendingIntent)
+                            .setGroup("test_app_notification")
+                             .setColor(Color.rgb(214, 10, 37));
             int iconIdentifier = getResources().getIdentifier("notification_icon", "drawable", getPackageName());
             Log.d(TAG, "iconIdentifier: " + iconIdentifier);
             if (iconIdentifier != 0) {

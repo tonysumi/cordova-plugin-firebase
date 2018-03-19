@@ -1207,7 +1207,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
         notificationIntent.putExtra("notificationTag", "BVNotification");
         
         PendingIntent pendingIntent = PendingIntent.getActivity(acontext, 0, notificationIntent, 0);  
-        int notification_icon = acontext.getResources().getIdentifier("sabro", "drawable", acontext.getPackageName());
+        int notification_icon = acontext.getResources().getIdentifier("sabroIcon", "drawable", acontext.getPackageName());
         Log.d("SaBRO" ,"notification_icon : " + notification_icon); 
         Log.d("SaBRO" ,"package name : " + acontext.getPackageName());  
 

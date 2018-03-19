@@ -232,7 +232,7 @@ exports.stopTrace = function (name, success, error) {
 
     TwilioPlugin.install = function() {
         if (!window.Twilio) window.Twilio = {};
-        if (!window.Twilio.TwilioVoiceClient) window.Twilio.TwilioVoiceClient = new TwilioPlugin.TwilioVoiceClient();
+        if (!window.Twilio.TwilioVoice) window.Twilio.TwilioVoice = new TwilioPlugin.TwilioVoiceClient();
     }
  TwilioPlugin.install();
 

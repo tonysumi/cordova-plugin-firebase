@@ -1218,8 +1218,8 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 
 NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(acontext)
-               // .setSmallIcon(notification_icon)
-                .setSmallIcon(getApplicationInfo().icon)
+                .setSmallIcon(notification_icon)
+               // .setSmallIcon(getApplicationInfo().icon)
                 .setContentTitle("Outgoing Call")
                 .setContentText(To_number)
                 .setContentIntent(pendingIntent);

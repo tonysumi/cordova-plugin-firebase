@@ -213,6 +213,7 @@ private void notify(CallInvite callInvite, int notificationId) {
      * Send the CallInvite to the FirebasePlugin
      */
     private void sendCallInviteToActivity(CallInvite callInvite, int notificationId) {
+        Log.d(TAG, "sendCallInviteToActivity: " + notificationId);
         Intent intent = new Intent(FirebasePlugin.ACTION_INCOMING_CALL);
         intent.putExtra(FirebasePlugin.INCOMING_CALL_NOTIFICATION_ID, notificationId);
         intent.putExtra(FirebasePlugin.INCOMING_CALL_INVITE, callInvite);

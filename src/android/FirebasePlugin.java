@@ -997,6 +997,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 //-------------------------------------------------Twilio Vioce Start---------------------------------------------------------------------------
 
     private void call(final JSONArray arguments, final CallbackContext callbackContext) {
+        Log.d(TAG,"call");
             if(cordova.hasPermission(RECORD_AUDIO))
                     {
                             cordova.getThreadPool().execute(new Runnable(){
@@ -1058,6 +1059,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
      * Accept an incoming Call
      */
     private void acceptCallInvite(JSONArray arguments, final CallbackContext callbackContext) {
+        Log.d(TAG,"acceptCallInvite");
         if (mCallInvite == null) {
             callbackContext.sendPluginResult(new PluginResult(
                     PluginResult.Status.ERROR));
@@ -1073,6 +1075,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
     }
     
     private void rejectCallInvite(JSONArray arguments, final CallbackContext callbackContext) {
+        Log.d(TAG,"rejectCallInvite");
         if (mCallInvite == null) {
             callbackContext.sendPluginResult(new PluginResult(
                     PluginResult.Status.ERROR));
@@ -1092,6 +1095,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
      * Disconnect from Call
      */
     private void disconnect(JSONArray arguments, final CallbackContext callbackContext) {
+        Log.d(TAG,"disconnect");
         if (mCall == null) {
             callbackContext.sendPluginResult(new PluginResult(
                     PluginResult.Status.ERROR));
@@ -1107,6 +1111,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 
     private void sendDigits(final JSONArray arguments,
             final CallbackContext callbackContext) {
+        Log.d(TAG,"sendDigits"+arguments.optString(0));
         if (arguments == null || arguments.length() < 1 || mCall == null) {
             callbackContext.sendPluginResult(new PluginResult(
                     PluginResult.Status.ERROR));
@@ -1122,6 +1127,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
     }
     
     private void checkMicrophonePermission(final CallbackContext callbackContext) {
+        Log.d(TAG,"checkMicrophonePermission");
         if(cordova.hasPermission(RECORD_AUDIO))
         {
             PluginResult result = new PluginResult(PluginResult.Status.OK,true);
@@ -1178,6 +1184,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 
 
     private void callStatus(CallbackContext callbackContext) {
+        Log.d(TAG,"callStatus");
         if (mCall == null) {
             Log.d("callStatus", "mCall == null");
             callbackContext.sendPluginResult(new PluginResult(
@@ -1195,6 +1202,7 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 
     
     private void showNotification(String To_number, CallbackContext context) {
+        Log.d(TAG,"showNotification");
         Context acontext = FirebasePlugin.this.webView.getContext();
         NotificationManager mNotifyMgr = 
                 (NotificationManager) acontext.getSystemService(Activity.NOTIFICATION_SERVICE);
@@ -1225,6 +1233,7 @@ NotificationCompat.Builder mBuilder =
     }
     
     private void cancelNotification(JSONArray arguments, CallbackContext context) {
+        Log.d(TAG,"cancelNotification");
         NotificationManager mNotifyMgr = 
                 (NotificationManager) FirebasePlugin.this.webView.getContext().getSystemService(Activity.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(mCurrentNotificationId);
@@ -1237,6 +1246,7 @@ NotificationCompat.Builder mBuilder =
      *  @param mode Speaker Mode
      * */
     public void setSpeaker(final JSONArray arguments, final CallbackContext callbackContext) {
+        Log.d(TAG,"setSpeaker");
         cordova.getThreadPool().execute(new Runnable(){
             public void run() {
                 Context context = cordova.getActivity().getApplicationContext();
@@ -1300,6 +1310,7 @@ NotificationCompat.Builder mBuilder =
     }
 
     private void fireDocumentEvent(String eventName) {
+        Log.d(TAG,"fireDocumentEvent");
         if (eventName != null) {
             javascriptCallback(eventName,mInitCallbackContext);
         }
@@ -1309,6 +1320,7 @@ NotificationCompat.Builder mBuilder =
 public void onRequestPermissionResult(int requestCode, String[] permissions,
                                           int[] grantResults) throws JSONException
     {
+        Log.d(TAG,"onRequestPermissionResult");
         for(int r:grantResults)
         {
             if(r == PackageManager.PERMISSION_DENIED)
@@ -1364,6 +1376,7 @@ public void onRequestPermissionResult(int requestCode, String[] permissions,
     private Call.Listener mCallListener = new Call.Listener() {
         @Override
         public void onConnected(Call call) {
+        Log.d(TAG,"onConnected");
             mCall = call;
 
             JSONObject callProperties = new JSONObject();
@@ -1386,6 +1399,8 @@ public void onRequestPermissionResult(int requestCode, String[] permissions,
 
         @Override
         public void onConnectFailure(Call call, CallException exception) {
+        Log.d(TAG,"onConnectFailure");
+
             mCall = null;
             NotificationManager mNotifyMgr = (NotificationManager) FirebasePlugin.this.webView.getContext().getSystemService(Activity.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(mCurrentNotificationId);
@@ -1399,6 +1414,7 @@ public void onRequestPermissionResult(int requestCode, String[] permissions,
 
         @Override
         public void onDisconnected(Call call, CallException exception) {
+        Log.d(TAG,"onDisconnected");
             mCall = null;
             NotificationManager mNotifyMgr = (NotificationManager) FirebasePlugin.this.webView.getContext().getSystemService(Activity.NOTIFICATION_SERVICE);
         mNotifyMgr.cancel(mCurrentNotificationId);

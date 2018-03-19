@@ -99,6 +99,9 @@ public class FirebasePlugin extends CordovaPlugin {
     public static final String INCOMING_CALL_NOTIFICATION_ID = "INCOMING_CALL_NOTIFICATION_ID";
     public static final String ACTION_INCOMING_CALL = "ACTION_INCOMING_CALL";
     
+    // Access Token
+    private String mAccessToken;
+
     private Call mCall;
     private CallInvite mCallInvite;
     RegistrationListener registrationListener = registrationListener();
@@ -272,7 +275,8 @@ public class FirebasePlugin extends CordovaPlugin {
             this.stopTrace(callbackContext, args.getString(0));
             return true;
         }else if (action.equals("registerForCallInvites")) {
-
+            mAccessToken = args.getString(0);
+            mInitCallbackContext = callbackContext;
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(ACTION_INCOMING_CALL);
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(cordova.getActivity());
@@ -1212,7 +1216,8 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
 
 NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(acontext)
-                .setSmallIcon(notification_icon)
+               // .setSmallIcon(notification_icon)
+                .setSmallIcon(getApplicationInfo().icon)
                 .setContentTitle("Outgoing Call")
                 .setContentText(To_number)
                 .setContentIntent(pendingIntent);

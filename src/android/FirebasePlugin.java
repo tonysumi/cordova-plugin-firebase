@@ -1207,23 +1207,18 @@ private void registerForCallInvites(final CallbackContext callbackContext,String
         notificationIntent.putExtra("notificationTag", "BVNotification");
         
         PendingIntent pendingIntent = PendingIntent.getActivity(acontext, 0, notificationIntent, 0);  
-        int notification_icon = acontext.getResources().getIdentifier("sabroIcon", "drawable", acontext.getPackageName());
+        int notification_icon = acontext.getResources().getIdentifier("sabro_icon", "drawable", acontext.getPackageName());
         Log.d("SaBRO" ,"notification_icon : " + notification_icon); 
         Log.d("SaBRO" ,"package name : " + acontext.getPackageName());  
 
-        Intent hangupReceiver = pm.getLaunchIntentForPackage(acontext.getPackageName());
-        hangupReceiver.setAction(HANGUP_ACTION);
-        PendingIntent pendingIntentHangup = PendingIntent.getBroadcast(acontext, 12345, hangupReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
-
+       
 
 NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(acontext)
                 .setSmallIcon(notification_icon)
-               // .setSmallIcon(getApplicationInfo().icon)
                 .setContentTitle("Outgoing Call")
                 .setContentText(To_number)
                 .setContentIntent(pendingIntent);
-             //   .addAction(notification_icon, "HANGUP", pendingIntentHangup);
         mNotifyMgr.notify(mCurrentNotificationId, mBuilder.build());
         
         context.success();

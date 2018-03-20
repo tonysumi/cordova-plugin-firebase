@@ -8,44 +8,44 @@
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.checkMicrophonePermission  = function(fn) {
-        Cordova.exec(fn,null,"TwilioVoicePlugin","checkMicrophonePermission",null);
+        Cordova.exec(fn,null,"FirebasePlugin","checkMicrophonePermission",null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.call = function(token, params) {
-        Cordova.exec(null,null,"TwilioVoicePlugin","call",[token, params]);
+        Cordova.exec(null,null,"FirebasePlugin","call",[token, params]);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.sendDigits = function(digits) {
-        Cordova.exec(null,null,"TwilioVoicePlugin","sendDigits",[digits]);
+        Cordova.exec(null,null,"FirebasePlugin","sendDigits",[digits]);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.disconnect = function() {
-        Cordova.exec(null,null,"TwilioVoicePlugin","disconnect",null);
+        Cordova.exec(null,null,"FirebasePlugin","disconnect",null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.rejectCallInvite = function() {
-        Cordova.exec(null,null,"TwilioVoicePlugin","rejectCallInvite",null);
+        Cordova.exec(null,null,"FirebasePlugin","rejectCallInvite",null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.acceptCallInvite = function() {
-        Cordova.exec(null,null,"TwilioVoicePlugin","acceptCallInvite",null);
+        Cordova.exec(null,null,"FirebasePlugin","acceptCallInvite",null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.setSpeaker = function(mode) {
         // "on" or "off"        
-        Cordova.exec(null, null, "TwilioVoicePlugin", "setSpeaker", [mode]);
+        Cordova.exec(null, null, "FirebasePlugin", "setSpeaker", [mode]);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.muteCall = function() {
-        Cordova.exec(null, null, "TwilioVoicePlugin", "muteCall", null);
+        Cordova.exec(null, null, "FirebasePlugin", "muteCall", null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.unmuteCall = function() {
-        Cordova.exec(null, null, "TwilioVoicePlugin", "unmuteCall", null);
+        Cordova.exec(null, null, "FirebasePlugin", "unmuteCall", null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.isCallMuted = function(fn) {
-        Cordova.exec(fn, null, "TwilioVoicePlugin", "isCallMuted", null);
+        Cordova.exec(fn, null, "FirebasePlugin", "isCallMuted", null);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.initialize = function(token) {
@@ -60,7 +60,7 @@
             if (delegate[callback['callback']]) delegate[callback['callback']](argument);
         }
 
-        Cordova.exec(success,error,"TwilioVoicePlugin","initializeWithAccessToken",[token]);
+        Cordova.exec(success,error,"FirebasePlugin","initializeWithAccessToken",[token]);
     }
 
     TwilioPlugin.TwilioVoiceClient.prototype.error = function(fn) {
@@ -90,8 +90,11 @@
 
     TwilioPlugin.install = function() {
         if (!window.Twilio) window.Twilio = {};
-        if (!window.Twilio.TwilioVoiceClient) window.Twilio.TwilioVoice = new TwilioPlugin.TwilioVoiceClient();
+        if (!window.Twilio.TwilioVoice) window.Twilio.TwilioVoiceClient = new TwilioPlugin.TwilioVoiceClient();
     }
  TwilioPlugin.install();
 
 })()
+
+
+

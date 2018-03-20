@@ -9,6 +9,10 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 	<engines>
 		<engine name="cordova" version=">=3.2.0" />
 	</engines>
+	
+	<preference default="" name="FCM_SENDER_ID" />
+    <preference default="" name="INCOMING_CALL_APP_NAME" />
+    <preference default="false" name="ENABLE_CALL_KIT" />
 
 	<platform name="android">
 		<js-module name="FirebasePlugin" src="www/firebase.js">
@@ -20,32 +24,49 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 				<param name="onload" value="true" />
 			</feature>
 		</config-file>
+		 <config-file parent="/resources" target="res/values/strings.xml">
+            <string name="fcm_sender_id" translatable="false">$FCM_SENDER_ID</string>
+            <string name="incoming_call_app_name" translatable="false">$INCOMING_CALL_APP_NAME</string>
+        </config-file>
+
 		<config-file parent="/resources" target="res/values/strings.xml">
 			<string name="google_app_id">1:522556781369:android:619524061e1acfb1</string>
 		</config-file>
 		<config-file parent="/resources" target="res/values/strings.xml">
 			<string name="google_api_key">AIzaSyAlAmbbcD75loLVqnIvPHuTfLsBeKhdCrw</string>
 		</config-file>
+
 		<config-file target="AndroidManifest.xml" parent="/*">
 				<uses-permission android:name="android.permission.INTERNET" />
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 				<uses-permission android:name="android.permission.WAKE_LOCK" />
+				<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 		</config-file>
+
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
 			<service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService" />
 		</config-file>
+
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+
 			<service android:name="org.apache.cordova.firebase.FirebasePluginMessagingService">
 				<intent-filter>
 					<action android:name="com.google.firebase.MESSAGING_EVENT"/>
 				</intent-filter>
 			</service>
+
 			<service android:name="org.apache.cordova.firebase.FirebasePluginInstanceIDService">
 				<intent-filter>
 					<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
 				</intent-filter>
 			</service>
-			<receiver android:name="org.apache.cordova.firebase.OnNotificationOpenReceiver"></receiver>
+
+			<receiver android:name="org.apache.cordova.firebase.OnNotificationOpenReceiver">
+				<intent-filter>  
+        			<action android:name="android.intent.action.BOOT_COMPLETED" />  
+    			</intent-filter>  
+			</receiver>
+
 		</config-file>
 		<resource-file src="sabro_icon.png" target="res/drawable/sabro_icon.png" />
 		<source-file src="src/android/google-services.json" target-dir="." />
@@ -71,6 +92,11 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<js-module name="FirebasePlugin" src="www/firebase.js">
 			<clobbers target="FirebasePlugin" />
 		</js-module>
+		
+		<js-module name="TwilioVoice" src="www/TwilioVoicePlugin.js">
+        	<clobbers target="TwilioVoice" />
+    	</js-module>
+
 		<config-file parent="/*" target="config.xml">
 			<feature name="FirebasePlugin">
 				<param name="ios-package" value="FirebasePlugin" />
@@ -84,6 +110,46 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 			<string>production</string>
 		</config-file>
 
+ 		<!-- Add support for background VOIP and audio to the plist -->
+        <config-file target="*-Info.plist" parent="UIBackgroundModes">
+            <array>
+                <string>voip</string>
+                <string>audio</string>
+            </array>
+        </config-file>
+
+        <!-- Add Privacy Description for Microphone Usage -->
+        <preference name="MICROPHONE_USAGE_DESCRIPTION" default="This app needs microphone access"/>
+        <config-file target="*-Info.plist" parent="NSMicrophoneUsageDescription">
+          <string>The app uses the microphone for voice calls</string>
+        </config-file>
+
+        <preference name="PHOTOLIBRARY_ADD_USAGE_DESCRIPTION" default="This app needs write-access to photo library"/>
+        <config-file target="*-Info.plist" parent="NSPhotoLibraryAddUsageDescription">
+            <string>Allow SaBRO to access your camera and photos from library.</string>
+        </config-file>
+
+        <preference name="CONTACTS_USAGE_DESCRIPTION" default="This app needs contacts access"/>
+        <config-file target="*-Info.plist" parent="NSContactsUsageDescription">
+            <string>"SaBRO" would like to access your phonebook. Allowing contact permission is required to access your contacts from application.
+We do not store your contacts on server until you copy it to SaBRO cloud.</string>
+        </config-file>
+ 
+  		<!-- Add Incoming Call App Name for CallKit -->
+        <config-file target="*-Info.plist" parent="TVPIncomingCallAppName">
+          <string>$INCOMING_CALL_APP_NAME</string>
+        </config-file>
+        
+        <!-- Add Enable CallKit Preference to plist -->
+        <config-file target="*-Info.plist" parent="TVPEnableCallKit">
+          <string>$ENABLE_CALL_KIT</string>
+        </config-file>
+
+		<hook type="after_plugin_install" src="scripts/embed_framework.js" />
+        <hook type="before_build" src="scripts/embed_framework.js" />
+        
+        <header-file src="src/ios/TwilioVoicePlugin.h" />
+        <source-file src="src/ios/TwilioVoicePlugin.m" />
 		<resource-file src="src/ios/GoogleService-Info.plist" />
 
 		<header-file src="src/ios/AppDelegate+FirebasePlugin.h" />
@@ -108,6 +174,13 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<framework custom="true" src="src/ios/Firebase/Auth/FirebaseAuth.framework" />
 		<framework custom="true" src="src/ios/Firebase/Auth/GTMSessionFetcher.framework" />
 		<framework custom="true" src="src/ios/Firebase/Performance/FirebasePerformance.framework" />
+
+		<framework src="TwilioVoice.framework" custom="true" embed = "true"/>
+        <framework src="AudioToolbox.framework" />
+        <framework src="AVFoundation.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="SystemConfiguration.framework" />
+
 	</platform>
 
 	<platform name="browser">

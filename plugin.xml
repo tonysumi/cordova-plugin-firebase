@@ -92,11 +92,11 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<js-module name="FirebasePlugin" src="www/firebase.js">
 			<clobbers target="FirebasePlugin" />
 		</js-module>
-		
+		<!-- 
 		<js-module name="TwilioVoice" src="www/TwilioVoicePlugin.js">
         	<clobbers target="TwilioVoice" />
     	</js-module>
-
+ -->
 		<config-file parent="/*" target="config.xml">
 			<feature name="FirebasePlugin">
 				<param name="ios-package" value="FirebasePlugin" />
@@ -147,9 +147,9 @@ We do not store your contacts on server until you copy it to SaBRO cloud.</strin
 
 		<hook type="after_plugin_install" src="scripts/embed_framework.js" />
         <hook type="before_build" src="scripts/embed_framework.js" />
-        
+<!--         
         <header-file src="src/ios/TwilioVoicePlugin.h" />
-        <source-file src="src/ios/TwilioVoicePlugin.m" />
+        <source-file src="src/ios/TwilioVoicePlugin.m" /> -->
 		<resource-file src="src/ios/GoogleService-Info.plist" />
 
 		<header-file src="src/ios/AppDelegate+FirebasePlugin.h" />
@@ -176,10 +176,10 @@ We do not store your contacts on server until you copy it to SaBRO cloud.</strin
 		<framework custom="true" src="src/ios/Firebase/Performance/FirebasePerformance.framework" />
 
 		<framework src="TwilioVoice.framework" custom="true" embed = "true"/>
-        <framework src="AudioToolbox.framework" />
+       <!--  <framework src="AudioToolbox.framework" />
         <framework src="AVFoundation.framework" />
         <framework src="CFNetwork.framework" />
-        <framework src="SystemConfiguration.framework" />
+        <framework src="SystemConfiguration.framework" /> -->
 
 	</platform>
 

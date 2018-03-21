@@ -48,9 +48,9 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 				<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 		</config-file>
 
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+<!-- 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
 			<service android:enabled="true" android:exported="false" android:name="com.google.android.gms.measurement.AppMeasurementService" />
-		</config-file>
+		</config-file> -->
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
 

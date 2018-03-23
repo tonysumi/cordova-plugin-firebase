@@ -20,4 +20,5 @@ dependencies {
 	compile 'com.google.firebase:firebase-messaging:11.8.0'
 	compile 'com.google.firebase:firebase-config:11.8.0'
 	compile 'com.google.firebase:firebase-perf:11.8.0'
+	compile 'com.twilio:voice-android:2.0.3'
 }

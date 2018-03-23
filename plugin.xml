@@ -86,7 +86,6 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<!-- <framework src="com.google.android.gms:play-services-tagmanager:11.0.4" /> -->
 		<framework src="com.google.firebase:firebase-core:11.8.0" />
 		<framework src="com.google.firebase:firebase-messaging:11.8.0" />
-		<framework src="com.google.firebase:firebase-crash:11.8.0" />
 		<framework src="com.google.firebase:firebase-config:11.8.0" />
 		<framework src="com.google.firebase:firebase-perf:11.8.0" />
 	</platform>

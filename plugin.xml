@@ -18,10 +18,10 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<js-module name="FirebasePlugin" src="www/firebase.js">
 			<clobbers target="FirebasePlugin" />
 		</js-module>		
-<!-- 
+ 
 		<js-module name="TwilioVoice" src="www/TwilioVoice.js">
 			<clobbers target="TwilioVoice" />
-		</js-module> -->
+		</js-module> 
 
 		<config-file parent="/*" target="res/xml/config.xml">
 			<feature name="FirebasePlugin">
@@ -42,8 +42,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		</config-file>
 
 		<config-file target="AndroidManifest.xml" parent="/*">
-			<!-- <uses-permission android:name="android.permission.RECORD_AUDIO" />
-            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> -->
+			 <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> 
 				<uses-permission android:name="android.permission.INTERNET" />
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 				<uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -90,7 +90,6 @@ xmlns:android="http://schemas.android.com/apk/res/android">
 		<framework src="com.google.firebase:firebase-config:11.8.+" />
 		<framework src="com.google.firebase:firebase-perf:11.8.+" />
 		<framework src="com.twilio:voice-android:2.0.3" />
-		       <!--  <hook src="scripts/fixFirebasePlugin.js" type="before_run" /> -->
 
 	</platform>
 

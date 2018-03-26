@@ -80,7 +80,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
                 sendNotification(id, title, text, remoteMessage.getData(), showNotification, sound);
             }
         }
-
+	}
 
     private void sendNotification(String id, String title, String messageBody, Map<String, String> data, boolean showNotification, String sound) {
         Bundle bundle = new Bundle();

@@ -6,29 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.app.Notification;
-import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.content.ContentResolver;
-import android.support.v4.content.LocalBroadcastManager;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.twilio.voice.CallInvite;
-import com.twilio.voice.MessageException;
-import com.twilio.voice.MessageListener;
-import com.twilio.voice.Voice;
+
 import java.util.Map;
 import java.util.Random;
 
 public class FirebasePluginMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebasePlugin";
-  private static final String NOTIFICATION_ID_KEY = "NOTIFICATION_ID";
-    private static final String CALL_SID_KEY = "CALL_SID";
+
     /**
      * Called when message is received.
      *

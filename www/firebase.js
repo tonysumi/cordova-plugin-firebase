@@ -132,10 +132,6 @@ exports.incrementCounter = function (name, counterNamed, success, error) {
     exec(success, error, "FirebasePlugin", "incrementCounter", [name, counterNamed]);
 };
 
-exports.registerForCallInvites = function (accessToken, success, error) {
-    exec(success, error, "FirebasePlugin", "registerForCallInvites", [accessToken]);
-};
-
 exports.stopTrace = function (name, success, error) {
     exec(success, error, "FirebasePlugin", "stopTrace", [name]);
 };

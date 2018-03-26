@@ -14,16 +14,6 @@ public class OnNotificationOpenReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         PackageManager pm = context.getPackageManager();
         Intent launchIntent = pm.getLaunchIntentForPackage(context.getPackageName());
-//         Log.d("Notification", "Notification onReceive context.getPackageName(): " + context.getPackageName());
-//         Log.d("Notification", "Notification onReceive launchIntent: " + launchIntent);
-//         String action=intent.getStringExtra("action");
-//         Log.d("onReceive","action string: " + action);
-//         if(action.equals("ALLOW")){
-//             Log.d("Notification", "Notification onReceive ALLOW: ");
-//         }
-//         else if(action.equals("DENY")){
-//             Log.d("Notification", "Notification onReceive DENY: ");
-//         }
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         Bundle data = intent.getExtras();
         data.putBoolean("tap", true);
